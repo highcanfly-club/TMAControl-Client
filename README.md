@@ -65,17 +65,17 @@ server_cert = crypto.load_certificate(crypto.FILETYPE_PEM, certificate)
 pubkey = server_cert.get_pubkey()
 crypto.verify(server_cert, signature, data, 'sha256')
 ```
-if the signature is wrong it throws an exception otherwise nothing… Well done message is aithenticated.
+if the signature is wrong it throws an exception otherwise nothing… Well done message is authenticated.
 
 ### Funny check
-    On the server on the tmastateview users can scan a QR code representing a URL with https://SERVER_FQDN/checkmessage?message=XXXX&signature=YYYYYY
-    The server checks the signature and answer OK or NOK with its internal cerificate
+On the server on the tmastateview users can scan a QR code representing a URL with https://SERVER_FQDN/checkmessage?message=XXXX&signature=YYYYYY
+The server checks the signature and answer OK or NOK with its internal cerificate
 
 ## Python3 tiny Client
 Multiple client can communicate with the server. Basically it reads http(s)://SERVER_FQDN/tmastatesecuredmessage .
 The python3 tiny client is designed to be light for be embeded on a Raspberry Pi3.
 
-Because ou TLS certificate is a real certificate we consider sufficient to rely on Python ssl security.
+Because our TLS certificate is a real certificate we consider sufficient to rely on Python ssl security.
 We trust Mozilla root certificates list so we use it:
 ```bash
 pip3 install certifi
