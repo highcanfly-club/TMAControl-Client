@@ -6,8 +6,8 @@ import json
 import binascii
 
 from OpenSSL import crypto
-from playsound import playsound
 from time import sleep
+import pygame
 
 #get the certificate
 def getCertificate(host, port=443, timeout=10):
@@ -72,8 +72,11 @@ else:
         print('GPIO function was not executed') # probably not on rpi
     finally:
         sleep(0.5)
-        playsound("sound/" + playsoundWithUUIDMessage(uuid))
-
+        pygame.mixer.init()
+        pygame.mixer.music.load("sound/" + playsoundWithUUIDMessage(uuid))
+        pygame.mixer.music.play()
+        while pygame.mixer.music.get_busy() == True:
+              continue
     try:    
         LED(18).off() #release PTT
     except:
