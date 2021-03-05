@@ -4,11 +4,13 @@ import ssl
 import socket
 import json
 import binascii
+import sys
 
 from OpenSSL import crypto
 from time import sleep
+from datetime import datetime
 import pygame
-
+MAX_SKEW=300 #max 300s between message time and locat time
 #get the certificate
 def getCertificate(host, port=443, timeout=10):
     context = ssl.create_default_context()
@@ -48,13 +50,21 @@ response = urllib.request.urlopen(url)
 json_tma = json.loads(response.read())
 json_message = json.loads(json_tma['message'])
 uuid = json_message['uuid']
-timestamp = json_message['timestamp']
+updated_at = json_message['updated_at']
+str_timestamp = json_message['timestamp']
+timestamp = datetime.fromisoformat(str_timestamp).timestamp()
+now = datetime.now()
+time_diff = abs(timestamp-now.timestamp())
 raw_message = json_tma['message']
 signature = bytes.fromhex(json_tma['signature'])
 
 #all the need is here !
 print('raw message received: %s' % raw_message)
 #print('signature: %s' % binascii.hexlify(bytearray(signature)))
+
+if time_diff > MAX_SKEW:
+    print("Message is invalid - check local time\n")
+    sys.exit(0)
 
 #check signature
 try:
@@ -64,7 +74,7 @@ except:
     print ("Signature verification failed")
 else:
     print('uuid: %s' % uuid)
-    print('timestamp: %s' % timestamp)
+    print('time skew: %ss' % time_diff)
     try:
         from gpiozero import LED    
         LED(18).on()    #push PTT
