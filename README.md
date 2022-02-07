@@ -1,7 +1,12 @@
 # TMAControl-Client
 Simple minimal Python3 client for High Can Fly TMA Controller.
 
-# Limitations
+# About us
+* Me ( Ronan ) I'm a self-employed developper and a paraglider pilot
+* We ( [High Can Fly parapente](https://www.highcanfly.club) ) are a french paragliding club who start the development and the exploitation of a VHF reporter for the TMA Lille 3.1 .
+
+# Server
+Server code is available on Github here (https://github.com/eltorio/TMAControl)  # Limitations
 This is a pre-alpha version sort of a technology demonstrator for Ligue de Vol Libre Nord-Pas de Calais-Picardie and DGAC Subdivision de Lille.
 
 # License
